@@ -76,12 +76,14 @@ class CRM_Mailjet_Page_EndPoint extends CRM_Core_Page {
       $emailResult = civicrm_api3('Email', 'get', array('email' => $email));
       if(isset($emailResult['values']) && !empty($emailResult['values'])){
         //we always get the first result
-        $contactId = $emailResult['values'][0]['contact_id'];
-        $emailId = $emailResult['values'][0]['id'];
+        $contactId = $emailResult['values'][$emailResult['id']]['contact_id'];
+        $emailId = $emailResult['id'];
+        $email = $emailResult['values'][$emailResult['id']]['email'];
         $params = array(
           'mailing_id' => $mailingId,
           'contact_id' => $contactId,
           'email_id' => $emailId,
+          'email'	=> $email,
           'date_ts' =>  $trigger['time'],
         );
         /*
